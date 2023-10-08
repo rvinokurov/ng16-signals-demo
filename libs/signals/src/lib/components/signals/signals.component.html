@@ -1,19 +1,95 @@
-<div>counter: {{ counter() }}</div>
-<div>
-  <button (click)="update()">update</button
-  ><button (click)="reset()">reset</button>
-  <br />
-  <button (click)="increaseByInterval()">increase by interval</button>
-  <button (click)="clearInterval()">clear interval</button>
+<div class="container">
+  <div class="tui-row">
+    <div class="tui-col_md-6">
+      <tui-island>
+        <div class="tui-text_h6 tui-space_bottom-3">
+          counter: {{ counter() }}
+        </div>
+        <div>
+          <button
+            class="tui-space_right-3 tui-space_bottom-3"
+            size="m"
+            tuiButton
+            type="button"
+            (click)="update()"
+          >
+            update</button
+          ><button
+            class="tui-space_right-3 tui-space_bottom-3"
+            size="m"
+            tuiButton
+            type="button"
+            (click)="reset()"
+          >
+            reset
+          </button>
+          <button
+            class="tui-space_right-3 tui-space_bottom-3"
+            size="m"
+            tuiButton
+            type="button"
+            (click)="increaseByInterval()"
+          >
+            increase by interval
+          </button>
+
+          <button
+            class="tui-space_right-3 tui-space_bottom-3"
+            size="m"
+            tuiButton
+            type="button"
+            (click)="clearInterval()"
+          >
+            clear interval
+          </button>
+        </div>
+      </tui-island>
+    </div>
+    <div class="tui-col_md-6">
+      <tui-island>
+        <div class="tui-text_h6 tui-space_bottom-3">
+          collection: {{ collection() | json }}
+        </div>
+        <div class="tui-text_h6 tui-space_bottom-3">
+          counter + collection.length:
+          {{ counterPlusCollectionLength() }}
+        </div>
+        <div>
+          <button
+            class="tui-space_right-3 tui-space_bottom-3"
+            size="m"
+            tuiButton
+            type="button"
+            (click)="addToCollection()"
+          >
+            add to collection
+          </button>
+        </div>
+      </tui-island>
+    </div>
+  </div>
+  <div class="tui-row">
+    <div class="tui-col_md-6">
+    <tui-toggle
+      [formControl]="syncToggleControl"
+      [showIcons]="true"
+      size="l"
+    ></tui-toggle>
+    </div>
+  </div>
 </div>
-<hr />
-<div>collection: {{ collection() | json }}</div>
-<div>
-  <button (click)="addToCollection()">add to collection</button>
-</div>
-<div>counter + collection.length: {{ counterPlusCollectionLength() }}</div>
 <hr />
 <div>
   <button (click)="switchSync()">switch sync</button>
-  sync value: {{syncValue()}}
+  <b>sync value:</b> {{ syncValue() }}
+</div>
+<hr />
+<div><b>count from effect:</b> {{ countFromEffect }}</div>
+<hr />
+<div><b>sync value from effect:</b> {{ toggleSyncFromEffect }}</div>
+<hr />
+<div><b>sync value from effect with untracked:</b> {{ syncWithUntracked }}</div>
+<hr />
+<div>
+  <b>sync value from effect with untracked fn:</b> {{ syncWithUntrackedFn }}
 </div>
