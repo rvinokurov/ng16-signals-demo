@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
 import { TuiIslandModule, TuiToggleModule } from '@taiga-ui/kit';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { fromInteropObservable } from 'rxjs/internal/observable/innerFrom';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -34,8 +33,6 @@ export class SignalsComponent {
     () => this.counter() + this.collection().length
   );
 
-  // readonly toggleSync = signal<boolean>(true);
-
   syncToggleControl = new FormControl<boolean>(true);
 
   toggleSync = toSignal(this.syncToggleControl.valueChanges, {
@@ -50,47 +47,57 @@ export class SignalsComponent {
 
   syncWithUntrackedFn = '';
 
+  counterCleanUp = 0;
+
   readonly syncValue = computed<string>(() => {
     if (this.toggleSync()) {
-      return `updated value ${this.counter()} at ${new Date()}`;
+      return `updated value ${this.counter()} at ${Date.now()}`;
     } else {
-      return `updated value ${this.collection()} at ${new Date()}`;
+      return `updated value ${this.collection()} at ${Date.now()}`;
     }
   });
 
   constructor() {
     effect(() => {
-      this.countFromEffect = `updated value ${this.counter()} at ${new Date()}`;
+      this.countFromEffect = `updated value ${this.counter()} at ${Date.now()}`;
     });
 
     effect(() => {
       if (this.toggleSync()) {
-        this.toggleSyncFromEffect = `updated value ${this.counter()} at ${new Date()}`;
+        this.toggleSyncFromEffect = `updated value ${this.counter()} at ${Date.now()}`;
       } else {
-        this.toggleSyncFromEffect = `updated value ${this.collection()} at ${new Date()}`;
+        this.toggleSyncFromEffect = `updated value ${this.collection()} at ${Date.now()}`;
       }
     });
 
     effect(() => {
-      this.countFromEffect = `updated value ${this.counter()} at ${new Date()}`;
+      this.countFromEffect = `updated value ${this.counter()} at ${Date.now()}`;
     });
 
     effect(() => {
       this.syncWithUntracked = `updated value ${this.counter()} and ${untracked(
         this.collection
-      )} at ${new Date()}`;
+      )} at ${Date.now()}`;
     });
 
     effect(() => {
-      this.syncWithUntrackedFn = `updated value ${this.counter()} and`;
+      this.syncWithUntrackedFn = `updated value ${this.counter()}`;
 
       untracked(() => {
-        this.syncWithUntrackedFn += `and ${untracked(
+        this.syncWithUntrackedFn += ` and ${untracked(
           this.collection
-        )} at ${new Date()}`;
+        )}`;
       });
 
-      this.syncWithUntrackedFn += `at ${new Date()}`;
+      this.syncWithUntrackedFn += ` at ${Date.now()}`;
+    });
+
+    effect((onCleanup) => {
+      this.counter();
+
+      onCleanup(() => {
+        this.counterCleanUp++;
+      });
     });
   }
 
@@ -109,7 +116,6 @@ export class SignalsComponent {
   }
 
   switchSync() {
-    // this.toggleSync.update((value) => !value);
     this.syncToggleControl.setValue(!this.syncToggleControl.value);
   }
 
