@@ -1,11 +1,11 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   computed,
-  effect,
+  effect, inject,
   signal,
-  untracked,
-} from '@angular/core';
+  untracked
+} from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { TuiIslandModule, TuiToggleModule } from '@taiga-ui/kit';
 import { TuiButtonModule } from '@taiga-ui/core';
@@ -48,6 +48,8 @@ export class SignalsComponent {
   syncWithUntrackedFn = '';
 
   counterCleanUp = 0;
+
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   readonly syncValue = computed<string>(() => {
     if (this.toggleSync()) {
@@ -94,9 +96,15 @@ export class SignalsComponent {
 
     effect((onCleanup) => {
       this.counter();
-
+      /**
+       * первый вызов идет сразу, но cleanup срабатывает при следующем вызове
+       */
       onCleanup(() => {
-        this.counterCleanUp++;
+        setTimeout(() => {
+          this.counterCleanUp++;
+          this.changeDetectorRef.detectChanges();
+        }, 1000)
+
       });
     });
   }
