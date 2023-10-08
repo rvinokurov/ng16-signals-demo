@@ -1,0 +1,19 @@
+<div>counter: {{ counter() }}</div>
+<div>
+  <button (click)="update()">update</button
+  ><button (click)="reset()">reset</button>
+  <br />
+  <button (click)="increaseByInterval()">increase by interval</button>
+  <button (click)="clearInterval()">clear interval</button>
+</div>
+<hr />
+<div>collection: {{ collection() | json }}</div>
+<div>
+  <button (click)="addToCollection()">add to collection</button>
+</div>
+<div>counter + collection.length: {{ counterPlusCollectionLength() }}</div>
+<hr />
+<div>
+  <button (click)="switchSync()">switch sync</button>
+  sync value: {{syncValue()}}
+</div>

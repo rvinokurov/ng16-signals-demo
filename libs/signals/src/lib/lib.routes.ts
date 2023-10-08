@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { SignalsComponent } from './signals/signals.component';
+import { ShellComponent } from "./components/shell/shell.component";
 
 export const signalsRoutes: Route[] = [
-  { path: '', component: SignalsComponent },
+  { path: '', component:  ShellComponent },
 ];
