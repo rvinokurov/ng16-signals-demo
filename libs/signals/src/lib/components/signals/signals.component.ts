@@ -53,40 +53,37 @@ export class SignalsComponent {
 
   readonly syncValue = computed<string>(() => {
     if (this.toggleSync()) {
-      return `updated value ${this.counter()} at ${Date.now()}`;
+      return `counter is ${this.counter()} at ${Date.now()}; collection не влияет`;
     } else {
-      return `updated value ${this.collection()} at ${Date.now()}`;
+      return `collection is ${this.collection()} at ${Date.now()}; counter не влияет`;
     }
   });
 
   constructor() {
     effect(() => {
-      this.countFromEffect = `updated value ${this.counter()} at ${Date.now()}`;
+      this.countFromEffect = `counter is ${this.counter()} at ${Date.now()}`;
     });
 
     effect(() => {
       if (this.toggleSync()) {
-        this.toggleSyncFromEffect = `updated value ${this.counter()} at ${Date.now()}`;
+        this.toggleSyncFromEffect = `counter is ${this.counter()} at ${Date.now()}; collection не влияет`;
       } else {
-        this.toggleSyncFromEffect = `updated value ${this.collection()} at ${Date.now()}`;
+        this.toggleSyncFromEffect = `collection is ${this.collection()} at ${Date.now()}; counter не влияет`;
       }
     });
 
-    effect(() => {
-      this.countFromEffect = `updated value ${this.counter()} at ${Date.now()}`;
-    });
 
     effect(() => {
-      this.syncWithUntracked = `updated value ${this.counter()} and ${untracked(
+      this.syncWithUntracked = `counter is ${this.counter()} and collection(untracked) ${untracked(
         this.collection
       )} at ${Date.now()}`;
     });
 
     effect(() => {
-      this.syncWithUntrackedFn = `updated value ${this.counter()}`;
+      this.syncWithUntrackedFn = `counter is ${this.counter()}`;
 
       untracked(() => {
-        this.syncWithUntrackedFn += ` and ${untracked(
+        this.syncWithUntrackedFn += ` and collection(untracked) ${untracked(
           this.collection
         )}`;
       });
