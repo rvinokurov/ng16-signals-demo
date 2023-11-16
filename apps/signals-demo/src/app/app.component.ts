@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { TuiRootModule } from "@taiga-ui/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [ RouterModule, TuiRootModule],
   selector: 'ng16-signals-demo-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   title = 'signals-demo';
